@@ -1,0 +1,15 @@
+.index {
+  @apply inline-block bg-white rounded-br-sm w-6 text-black text-center font-bold;
+}
+
+.badge {
+  @apply w-2 ml-2 hidden sm:inline-block;
+}
+
+.label {
+  @apply inline-block ml-2 font-bold text-xs sm:text-base cursor-pointer;
+}
+
+.value {
+  @apply col-span-2 font-bold text-center;
+}

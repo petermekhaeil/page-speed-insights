@@ -1,0 +1,17 @@
+.root {
+  @apply bg-gray-500 min-h-screen text-white;
+  background-color: #15151d;
+}
+
+.heading {
+  @apply pt-8 pb-0 sm:pb-4 text-3xl sm:text-4xl;
+  color: #fcfcfc;
+}
+
+.headingSection {
+  @apply text-2xl sm:text-3xl mb-4;
+}
+
+.rule {
+  @apply border-gray-500 pb-8 mt-8;
+}

@@ -1,0 +1,18 @@
+body {
+  background: #15151d;
+}
+
+@keyframes load-gauge {
+  from {
+    stroke-dasharray: 0 352;
+  }
+}
+
+@keyframes progress-bar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
