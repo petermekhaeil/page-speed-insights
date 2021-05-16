@@ -2,27 +2,34 @@ import React from 'react';
 import SiteDetails from './SiteDetails';
 import ScoringGuide from './ScoringGuide';
 import { CruxRecords, FieldDataScore, Topic } from '../app/typings';
+import {
+  getRecordUrl,
+  getScoreByUrl,
+  getSiteNameFromUrl
+} from '../app/helpers';
 
 type Props = {
-  cruxRecords: CruxRecords;
+  report: CruxRecords;
   topic: Topic;
   scores: FieldDataScore[];
+  type: string;
 };
 
-const SitesList = ({ cruxRecords, topic, scores }: Props) => {
+const SitesList = ({ report, topic, scores, type }: Props) => {
   return (
     <>
-      {cruxRecords
+      {report
         .map((result) => {
-          const url = result.record.key.url || '';
+          const url = getRecordUrl(result.record, type);
           return {
             ...result,
             url,
-            score: scores.find((score) => score.id.startsWith(url))?.score || 0
+            score: getScoreByUrl(scores, url)
           };
         })
         .sort((a, b) => b.score - a.score)
         .map((result, index) => {
+          const site = getSiteNameFromUrl(topic.sites, type, result.url);
           const {
             record: { metrics },
             score
@@ -35,9 +42,9 @@ const SitesList = ({ cruxRecords, topic, scores }: Props) => {
                 metrics={metrics}
                 url={result.url}
                 score={score}
-                label={topic.sites[result.url]?.name}
+                label={site.name}
               />
-              {index !== cruxRecords.length - 1 ? (
+              {index !== report.length - 1 ? (
                 <hr className="border-gray-500 pb-8 mt-8" />
               ) : (
                 <hr className="border-gray-500 pb-8 mt-8 block sm:hidden" />

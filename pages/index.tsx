@@ -11,18 +11,29 @@ export async function getStaticProps() {
   return {
     props: {
       topic,
-      cruxRecords: reports.cruxRecords,
-      scores: reports.scores
+      reports
     }
   };
 }
 
 type IndexProps = {
   topic: Topic;
-  cruxRecords: CruxRecords;
-  scores: FieldDataScore[];
+  reports: {
+    resultByUrl: CruxRecords;
+    resultByOrigin: CruxRecords;
+    scoresByUrl: FieldDataScore[];
+    scoresByOrigin: FieldDataScore[];
+  };
 };
 
-export default function Index({ topic, cruxRecords, scores }: IndexProps) {
-  return <Home scores={scores} topic={topic} cruxRecords={cruxRecords} />;
+export default function Index({ topic, reports }: IndexProps) {
+  return (
+    <Home
+      topic={topic}
+      scoresByUrl={reports.scoresByUrl}
+      scoresByOrigin={reports.scoresByOrigin}
+      resultByUrl={reports.resultByUrl}
+      resultByOrigin={reports.resultByOrigin}
+    />
+  );
 }

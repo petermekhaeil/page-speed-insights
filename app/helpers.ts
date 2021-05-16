@@ -54,3 +54,24 @@ export const getColourForType = (
 };
 
 export const getTopic = () => topics[process.env.TOPIC as keyof typeof topics];
+
+export const getSiteDetailsByKey = (key: string) => {
+  const topic = getTopic();
+  return Object.keys(topic.sites).map((site) => {
+    return topic.sites[site][key];
+  });
+};
+
+export const getRecordUrl = (record, type) => record.key[type];
+
+export const getScoreByUrl = (scores, url) =>
+  scores.find((score) => score.id.startsWith(url))?.score;
+
+export const formatScore = (score) => +Number(score * 100).toFixed(0);
+
+export const getSiteNameFromUrl = (sites, type, url) => {
+  const siteKey = Object.keys(sites).find((siteName) =>
+    sites[siteName][type].startsWith(url)
+  );
+  return sites[siteKey];
+};

@@ -1,17 +1,29 @@
 import React from 'react';
 import { FieldDataScore, Topic } from '../app/typings';
-import { getColourForType, toSeconds } from '../app/helpers';
+import {
+  getColourForType,
+  getRecordUrl,
+  getScoreByUrl,
+  getSiteNameFromUrl,
+  toSeconds
+} from '../app/helpers';
 import ScoringGuide from './ScoringGuide';
 import { CruxRecords } from '../app/typings';
 import styles from './FieldDataReport.module.css';
 
 type Props = {
-  cruxRecords: CruxRecords;
+  report: CruxRecords;
   topic: Topic;
   scores: FieldDataScore[];
+  type: string;
 };
 
-export default function FieldDataReport({ cruxRecords, topic, scores }: Props) {
+export default function FieldDataReport({
+  report,
+  topic,
+  scores,
+  type
+}: Props) {
   const handleClick = (id: string) => {
     if (typeof document !== 'undefined') {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -41,18 +53,20 @@ export default function FieldDataReport({ cruxRecords, topic, scores }: Props) {
           </span>
         </div>
       </div>
-      {cruxRecords
+
+      {report
         .filter((result) => result)
         .map((result) => {
-          const url = result.record.key.url || '';
+          const url = getRecordUrl(result.record, type);
           return {
             ...result,
             url,
-            score: scores.find((score) => score.id.startsWith(url))?.score || 0
+            score: getScoreByUrl(scores, url)
           };
         })
         .sort((a, b) => b.score - a.score)
         .map((result, index) => {
+          const site = getSiteNameFromUrl(topic.sites, type, result.url);
           const {
             record: { metrics },
             url
@@ -62,8 +76,8 @@ export default function FieldDataReport({ cruxRecords, topic, scores }: Props) {
           const fcp = metrics.first_contentful_paint?.percentiles.p75 || 0;
           const fid = metrics.first_input_delay?.percentiles.p75 || 0;
           const lcp = metrics.largest_contentful_paint?.percentiles.p75 || 0;
-          const label = topic.sites[result.url]?.name;
-          const badge = topic.sites[url]?.colour;
+          const label = site.name;
+          const badge = site.colour;
 
           return (
             <div className="grid grid-cols-12 gap-0 sm:gap-2" key={url}>

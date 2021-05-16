@@ -3,43 +3,63 @@
 import { Sites } from '../app/typings';
 
 const sitesF1: Sites = {
-  'https://www.mercedesamgf1.com/en/': {
+  Mercedes: {
+    url: 'https://www.mercedesamgf1.com/en/',
+    origin: 'https://www.mercedesamgf1.com/',
     colour: '#01d1bb',
     name: 'Mercedes'
   },
-  'https://www.renaultsport.com/': {
+  Renault: {
+    url: 'https://www.renaultsport.com/',
+    origin: 'https://www.renaultsport.com/',
     colour: '#fef401',
     name: 'Renault'
   },
-  'https://www.redbull.com/sg-en/': {
+  'Red Bull': {
+    url: 'https://www.redbull.com/',
+    origin: 'https://www.redbull.com/',
     colour: '#3c00ff',
     name: 'Red Bull'
   },
-  'https://www.ferrari.com/en-EN': {
+  Ferrari: {
+    url: 'https://www.ferrari.com/en-EN',
+    origin: 'https://www.ferrari.com/en-EN',
     colour: '#da0700',
     name: 'Ferrari'
   },
-  'https://www.astonmartinf1.com/en-GB/': {
+  'Racing Point': {
+    url: 'https://www.astonmartinf1.com/en-GB/',
+    origin: 'https://www.astonmartinf1.com/en-GB/',
     colour: '#f395c7',
     name: 'Racing Point'
   },
-  'https://www.scuderiaalphatauri.com/en/': {
+  'Alpha Tauri': {
+    url: 'https://www.scuderiaalphatauri.com/en/',
+    origin: 'https://www.scuderiaalphatauri.com/en/',
     colour: '#fefefe',
     name: 'Alpha Tauri'
   },
-  'https://www.mclaren.com/': {
+  Mclaren: {
+    url: 'https://www.mclaren.com/',
+    origin: 'https://www.mclaren.com/',
     colour: '#ff8603',
     name: 'Mclaren'
   },
-  'https://www.alfaromeo.com/': {
+  'Alfa Romeo': {
+    url: 'https://www.alfaromeo.com/',
+    origin: 'https://www.alfaromeo.com/',
     colour: '#9a0300',
     name: 'Alfa Romeo'
   },
-  'https://www.haasf1team.com/': {
+  Haas: {
+    url: 'https://www.haasf1team.com/',
+    origin: 'https://www.haasf1team.com/',
     colour: '#777777',
     name: 'Haas'
   },
-  'https://www.williamsf1.com/': {
+  Williams: {
+    url: 'https://www.williamsf1.com/',
+    origin: 'https://www.williamsf1.com/',
     colour: '#0181f9',
     name: 'Williams'
   }

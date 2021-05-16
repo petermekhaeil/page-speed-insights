@@ -1,20 +1,30 @@
 import { Audit } from 'lighthouse';
 import nodeFetch from 'node-fetch';
 import { createBatch } from 'crux-api/batch';
-import { getTopic } from '../app/helpers';
+import { getSiteDetailsByKey } from '../app/helpers';
 import { Reports, FieldDataScore, MetricType } from '../app/typings';
 import { apiKey } from '../config';
 
 const batch = createBatch({ key: apiKey, fetch: nodeFetch });
 
-export const apiCrux = async (urls: string[]) => {
+export const apiCruxByUrl = async (urls: string[]) => {
   const opts = urls.map((url) => {
     return { url: url };
   });
 
   const records = await batch(opts);
 
-  return records;
+  return records.filter(Boolean);
+};
+
+export const apiCruxByOrigin = async (urls: string[]) => {
+  const opts = urls.map((url) => {
+    return { origin: url };
+  });
+
+  const records = await batch(opts);
+
+  return records.filter(Boolean);
 };
 
 function normalizeMetricValue(metric: MetricType, value: number) {
@@ -53,10 +63,10 @@ function getMetricRange(metric: MetricType) {
 }
 
 const getCruxReports = async (): Promise<Reports> => {
-  const topic = getTopic();
-  const urls = Object.keys(topic.sites);
-
-  const cruxRecords = await apiCrux(urls);
+  const urls = getSiteDetailsByKey('url');
+  const origins = getSiteDetailsByKey('origin');
+  const cruxRecordsByUrl = await apiCruxByUrl(urls);
+  const cruxRecordsByOrigin = await apiCruxByOrigin(origins);
 
   /*
     Scoring taken from https://github.com/treosh/lighthouse-plugin-field-performance
@@ -70,44 +80,47 @@ const getCruxReports = async (): Promise<Reports> => {
     values do not affect the score, see the source)
     */
 
-  const scores = cruxRecords.map(
-    (result): FieldDataScore => {
-      const metrics = result?.record.metrics;
-      const lcp = metrics?.largest_contentful_paint?.percentiles.p75;
-      const fid = metrics?.first_input_delay?.percentiles.p75;
-      const cls = metrics?.cumulative_layout_shift?.percentiles.p75;
+  const mapRecordsToScores = (result): FieldDataScore => {
+    const metrics = result?.record.metrics;
+    const lcp = metrics?.largest_contentful_paint?.percentiles.p75;
+    const fid = metrics?.first_input_delay?.percentiles.p75;
+    const cls = metrics?.cumulative_layout_shift?.percentiles.p75;
 
-      const lcpValue = normalizeMetricValue('lcp', lcp as number);
-      const fidValue = normalizeMetricValue('fid', fid as number);
-      const clsValue = normalizeMetricValue('cls', cls as number);
+    const lcpValue = normalizeMetricValue('lcp', lcp as number);
+    const fidValue = normalizeMetricValue('fid', fid as number);
+    const clsValue = normalizeMetricValue('cls', cls as number);
 
-      const lcpScore = Audit.computeLogNormalScore(
-        getMetricRange('lcp'),
-        lcpValue
-      );
-      const fidScore = Audit.computeLogNormalScore(
-        getMetricRange('fid'),
-        fidValue
-      );
-      const clsScore = Audit.computeLogNormalScore(
-        getMetricRange('cls'),
-        clsValue
-      );
+    const lcpScore = Audit.computeLogNormalScore(
+      getMetricRange('lcp'),
+      lcpValue
+    );
+    const fidScore = Audit.computeLogNormalScore(
+      getMetricRange('fid'),
+      fidValue
+    );
+    const clsScore = Audit.computeLogNormalScore(
+      getMetricRange('cls'),
+      clsValue
+    );
 
-      const score = Math.min(lcpScore, fidScore, clsScore);
+    const score = Math.min(lcpScore, fidScore, clsScore);
 
-      return {
-        id: result?.record.key.url || '',
-        score: score,
-        scores: { lcp: lcpScore, fid: fidScore, cls: clsScore },
-        metrics
-      };
-    }
-  );
+    return {
+      id: result?.record.key.origin || result?.record.key.url || '',
+      score: score,
+      scores: { lcp: lcpScore, fid: fidScore, cls: clsScore },
+      metrics
+    };
+  };
+
+  const byUrlFinalScores = cruxRecordsByUrl.map(mapRecordsToScores);
+  const byOriginFinalScores = cruxRecordsByOrigin.map(mapRecordsToScores);
 
   return {
-    cruxRecords: cruxRecords.filter(Boolean),
-    scores: scores.filter((score) => score.score)
+    resultByUrl: cruxRecordsByUrl,
+    resultByOrigin: cruxRecordsByOrigin,
+    scoresByUrl: byUrlFinalScores,
+    scoresByOrigin: byOriginFinalScores
   };
 };
 

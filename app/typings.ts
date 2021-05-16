@@ -1,4 +1,4 @@
-import { apiCrux } from '../api/getCruxReports';
+import { apiCruxByUrl } from '../api/getCruxReports';
 
 export type Histogram = {
   start: string | number;
@@ -32,7 +32,9 @@ export type LCP = {
 
 export type Site = {
   colour: string;
-  name?: string;
+  name: string;
+  url: string;
+  origin: string;
 };
 
 export type Sites = {
@@ -70,9 +72,11 @@ export type FieldDataScore = {
 
 export type Unwrap<T> = T extends (...args: any) => Promise<infer U> ? U : T;
 
-export type CruxRecords = Unwrap<typeof apiCrux>;
+export type CruxRecords = Unwrap<typeof apiCruxByUrl>;
 
 export type Reports = {
-  cruxRecords: CruxRecords;
-  scores: FieldDataScore[];
+  resultByUrl: CruxRecords;
+  resultByOrigin: CruxRecords;
+  scoresByUrl: FieldDataScore[];
+  scoresByOrigin: FieldDataScore[];
 };

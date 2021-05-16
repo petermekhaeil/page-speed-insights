@@ -6,7 +6,13 @@ import PerformanceReport from './PerformanceReport';
 import FieldDataReport from './FieldDataReport';
 import SitesList from './SitesList';
 
-const Home = ({ topic, cruxRecords, scores }) => {
+const Home = ({
+  topic,
+  resultByOrigin,
+  resultByUrl,
+  scoresByUrl,
+  scoresByOrigin
+}) => {
   return (
     <div className={styles.root}>
       <Head>
@@ -24,22 +30,37 @@ const Home = ({ topic, cruxRecords, scores }) => {
       <main className="container mx-auto px-4">
         <h1 className={styles.heading}>{topic.title}</h1>
         <hr className={styles.rule} />
-        <h2 className={styles.headingSection}>Performance Score</h2>
+        <h2 className={styles.headingSection}>Performance Score by Origin</h2>
         <PerformanceReport
           topic={topic}
-          cruxRecords={cruxRecords}
-          scores={scores}
+          report={resultByOrigin}
+          scores={scoresByOrigin}
+          type="origin"
+        />
+        <hr className={styles.rule} />
+        <h2 className={styles.headingSection}>Performance Score by URL</h2>
+        <PerformanceReport
+          topic={topic}
+          report={resultByUrl}
+          scores={scoresByUrl}
+          type="url"
         />
         <hr className={styles.rule} />
         <h2 className={styles.headingSection}>Field Data Scores</h2>
         <FieldDataReport
           topic={topic}
-          cruxRecords={cruxRecords}
-          scores={scores}
+          report={resultByOrigin}
+          scores={scoresByOrigin}
+          type="origin"
         />
         <hr className={styles.rule} />
         <h2 className={styles.headingSection}>{topic.siteNames}</h2>
-        <SitesList topic={topic} cruxRecords={cruxRecords} scores={scores} />
+        <SitesList
+          topic={topic}
+          report={resultByOrigin}
+          scores={scoresByOrigin}
+          type="origin"
+        />
       </main>
       <Footer />
     </div>

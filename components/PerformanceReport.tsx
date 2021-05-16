@@ -4,11 +4,18 @@ import React, { useRef } from 'react';
 import ScoringGuide from './ScoringGuide';
 import PerformanceItem from './PerformanceItem';
 import ScoringInformation from './ScoringInformation';
+import {
+  getRecordUrl,
+  getScoreByUrl,
+  getSiteNameFromUrl,
+  formatScore
+} from '../app/helpers';
 
 type Props = {
-  cruxRecords: CruxRecords;
+  report: CruxRecords;
   topic: Topic;
   scores: FieldDataScore[];
+  type: string;
 };
 
 const Head = () => {
@@ -24,15 +31,11 @@ const Head = () => {
   );
 };
 
-const getRecordUrl = (record) => record.key.url;
-const getScoreByUrl = (scores, url) =>
-  scores.find((score) => score.id.startsWith(url))?.score;
-const formatScore = (score) => +Number(score * 100).toFixed(0);
-
 export default function PerformanceReport({
-  cruxRecords,
+  report,
   topic,
-  scores
+  scores,
+  type
 }: Props) {
   const elementRef = useRef(null);
   const [isVisible] = useIntersectionObserver({ elementRef, threshold: 0.5 });
@@ -40,9 +43,9 @@ export default function PerformanceReport({
   return (
     <div className="grid grid-cols-1 gap-2" ref={elementRef}>
       <Head />
-      {cruxRecords
+      {report
         .map((result) => {
-          const url = getRecordUrl(result.record);
+          const url = getRecordUrl(result.record, type);
           return {
             ...result,
             url,
@@ -51,14 +54,15 @@ export default function PerformanceReport({
         })
         .sort((a, b) => b.score - a.score)
         .map((result, index) => {
+          const site = getSiteNameFromUrl(topic.sites, type, result.url);
           return (
             <PerformanceItem
               index={index}
               key={result.url}
               points={formatScore(result.score) || 0}
               isVisible={isVisible}
-              label={topic.sites[result.url]?.name}
-              badge={topic.sites[result.url]?.colour}
+              label={site.name}
+              badge={site.colour}
             />
           );
         })}
