@@ -1,20 +1,11 @@
-import { roundDown } from '../app/helpers';
-
-type Density = {
-  density: number;
-};
-
 type Props = {
-  cls: Density[];
-  fid: Density[];
-  lcp: Density[];
+  cls: string | number;
+  fid: string | number;
+  lcp: string | number;
 };
 
 const CoreWebVital = ({ cls, fid, lcp }: Props) => {
-  const isPass =
-    roundDown(fid[0].density) >= 50 &&
-    roundDown(lcp[0].density) >= 50 &&
-    roundDown(cls[0].density) >= 50;
+  const isPass = cls <= 0.1 && fid <= 100 && lcp <= 2500;
 
   return (
     <div className="mt-8">

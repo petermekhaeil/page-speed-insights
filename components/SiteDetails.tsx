@@ -18,6 +18,10 @@ const SiteDetails = ({ metrics, url, score, label }: Props) => {
   const fid = metrics.first_input_delay?.histogram;
   const lcp = metrics.largest_contentful_paint?.histogram;
 
+  const clsScore = metrics.cumulative_layout_shift?.percentiles.p75;
+  const fidScore = metrics.first_input_delay?.percentiles.p75;
+  const lcpScore = metrics.largest_contentful_paint?.percentiles.p75;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="col-span-1">
@@ -31,11 +35,7 @@ const SiteDetails = ({ metrics, url, score, label }: Props) => {
         </h4>
         <div className="mx-auto text-center w-1/2">
           <Gauge value={Math.round(score * 100)} />
-          <CoreWebVital
-            cls={cls as Histogram[]}
-            fid={fid as Histogram[]}
-            lcp={lcp as Histogram[]}
-          />
+          <CoreWebVital cls={clsScore} fid={fidScore} lcp={lcpScore} />
           <div className="mt-4 hidden sm:block">
             <a
               href={`https://developers.google.com/speed/pagespeed/insights/?url=${url}`}

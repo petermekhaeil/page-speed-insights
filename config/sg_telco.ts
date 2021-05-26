@@ -28,8 +28,8 @@ const sitesSgTelco: Sites = {
     colour: '#0000ff'
   },
   Lazada: {
-    origin: 'https://m.lazada.sg/',
-    url: 'https://m.lazada.sg/',
+    origin: 'https://www.lazada.sg/',
+    url: 'https://www.lazada.sg/',
     name: 'Lazada',
     colour: '#f57224'
   },
@@ -48,7 +48,7 @@ const sitesSgTelco: Sites = {
   Courts: {
     origin: 'https://www.courts.com.sg/',
     url: 'https://www.courts.com.sg/',
-    name: 'Sephora',
+    name: 'Courts',
     colour: '#000'
   },
   FairPrice: {
@@ -58,8 +58,8 @@ const sitesSgTelco: Sites = {
     colour: '#fff'
   },
   EZBuy: {
-    origin: 'https://m.ezbuy.sg/',
-    url: 'https://m.ezbuy.sg/',
+    origin: 'https://www.ezbuy.sg/',
+    url: 'https://www.ezbuy.sg/',
     name: 'EZBuy',
     colour: '#3d82f7'
   },
@@ -76,8 +76,8 @@ const sitesSgTelco: Sites = {
     colour: '#f53d2d'
   },
   Qoo10: {
-    origin: 'https://m.qoo10.sg/',
-    url: 'https://m.qoo10.sg/',
+    origin: 'https://www.qoo10.sg/',
+    url: 'https://www.qoo10.sg/',
     name: 'Qoo10',
     colour: '#fd3948'
   }
