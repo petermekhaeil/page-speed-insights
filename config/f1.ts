@@ -9,45 +9,45 @@ const sitesF1: Sites = {
     colour: '#01d1bb',
     name: 'Mercedes'
   },
-  Renault: {
-    url: 'https://www.renaultsport.com/',
-    origin: 'https://www.renaultsport.com/',
+  Alpine: {
+    url: 'https://www.alpinecars.com/en/formula-1',
+    origin: 'https://www.alpinecars.com/en/formula-1',
     colour: '#fef401',
-    name: 'Renault'
+    name: 'Alpine'
   },
   'Red Bull': {
-    url: 'https://www.redbull.com/',
-    origin: 'https://www.redbull.com/',
+    url: 'https://www.redbullracing.com/',
+    origin: 'https://www.redbullracing.com/',
     colour: '#3c00ff',
     name: 'Red Bull'
   },
   Ferrari: {
-    url: 'https://www.ferrari.com/en-EN',
-    origin: 'https://www.ferrari.com/en-EN',
+    url: 'https://www.ferrari.com/en-EN/formula1',
+    origin: 'https://www.ferrari.com/en-EN/formula1',
     colour: '#da0700',
     name: 'Ferrari'
   },
-  'Racing Point': {
+  'Aston Martin': {
     url: 'https://www.astonmartinf1.com/en-GB/',
     origin: 'https://www.astonmartinf1.com/en-GB/',
     colour: '#f395c7',
-    name: 'Racing Point'
+    name: 'Aston Martin'
   },
   'Alpha Tauri': {
-    url: 'https://www.scuderiaalphatauri.com/en/',
-    origin: 'https://www.scuderiaalphatauri.com/en/',
+    url: 'https://scuderia.alphatauri.com/en/',
+    origin: 'https://scuderia.alphatauri.com/en/',
     colour: '#fefefe',
     name: 'Alpha Tauri'
   },
   Mclaren: {
-    url: 'https://www.mclaren.com/',
-    origin: 'https://www.mclaren.com/',
+    url: 'https://www.mclaren.com/racing/',
+    origin: 'https://www.mclaren.com/racing/',
     colour: '#ff8603',
     name: 'Mclaren'
   },
   'Alfa Romeo': {
-    url: 'https://www.alfaromeo.com/',
-    origin: 'https://www.alfaromeo.com/',
+    url: 'http://alfaromeof1.com/',
+    origin: 'http://alfaromeof1.com/',
     colour: '#9a0300',
     name: 'Alfa Romeo'
   },
