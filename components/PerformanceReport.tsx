@@ -53,6 +53,7 @@ export default function PerformanceReport({
           };
         })
         .sort((a, b) => b.score - a.score)
+        .slice(0, 10)
         .map((result, index) => {
           const site = getSiteNameFromUrl(topic.sites, type, result.url);
           return (
