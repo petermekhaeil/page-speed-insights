@@ -14,7 +14,26 @@ export const apiCruxByUrl = async (urls: string[]) => {
 
   const records = await batch(opts);
 
-  return records.filter(Boolean);
+  const result = urls.map((url) => {
+    const scores = records.filter(Boolean).find((record) => {
+      return record.record.key.url === url;
+    });
+
+    if (scores) {
+      return scores;
+    } else {
+      return {
+        record: {
+          key: {
+            url
+          },
+          metrics: null
+        }
+      };
+    }
+  });
+
+  return result;
 };
 
 export const apiCruxByOrigin = async (urls: string[]) => {
@@ -82,6 +101,16 @@ const getCruxReports = async (): Promise<Reports> => {
 
   const mapRecordsToScores = (result): FieldDataScore => {
     const metrics = result?.record.metrics;
+
+    if (!metrics) {
+      return {
+        id: result?.record.key.origin || result?.record.key.url || '',
+        score: -1,
+        scores: { lcp: 0, fid: 0, cls: 0 },
+        metrics
+      };
+    }
+
     const lcp = metrics?.largest_contentful_paint?.percentiles.p75;
     const fid = metrics?.first_input_delay?.percentiles.p75;
     const cls = metrics?.cumulative_layout_shift?.percentiles.p75;

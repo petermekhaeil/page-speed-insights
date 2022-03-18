@@ -46,6 +46,14 @@ export default function PerformanceReport({
       {report
         .map((result) => {
           const url = getRecordUrl(result.record, type);
+
+          if (result.record.metrics === null) {
+            return {
+              url,
+              score: 0
+            };
+          }
+
           return {
             ...result,
             url,

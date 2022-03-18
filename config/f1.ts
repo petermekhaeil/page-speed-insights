@@ -5,18 +5,18 @@ import { Sites } from '../app/typings';
 const sitesF1: Sites = {
   Mercedes: {
     url: 'https://www.mercedesamgf1.com/en/',
-    origin: 'https://www.mercedesamgf1.com/',
+    origin: 'https://www.mercedesamgf1.com',
     colour: '#01d1bb',
     name: 'Mercedes'
   },
   Alpine: {
-    url: 'https://www.alpinecars.com/en/formula-1',
+    url: 'https://www.alpinecars.com/en/formula-1/',
     origin: 'https://www.alpinecars.com/en/formula-1',
     colour: '#fef401',
     name: 'Alpine'
   },
   'Red Bull': {
-    url: 'https://www.redbullracing.com/',
+    url: 'https://www.redbullracing.com/int-en',
     origin: 'https://www.redbullracing.com/',
     colour: '#3c00ff',
     name: 'Red Bull'
@@ -46,8 +46,8 @@ const sitesF1: Sites = {
     name: 'Mclaren'
   },
   'Alfa Romeo': {
-    url: 'http://alfaromeof1.com/',
-    origin: 'http://alfaromeof1.com/',
+    url: 'https://www.sauber-group.com/motorsport/formula-1/',
+    origin: 'https://www.sauber-group.com',
     colour: '#9a0300',
     name: 'Alfa Romeo'
   },
