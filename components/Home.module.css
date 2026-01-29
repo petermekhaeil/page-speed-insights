@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 .root {
   @apply bg-gray-500 min-h-screen text-white;
   background-color: #15151d;
@@ -9,7 +11,11 @@
 }
 
 .headingSection {
-  @apply text-2xl sm:text-3xl mb-4;
+  @apply text-2xl sm:text-3xl mb-1;
+}
+
+.sectionDescription {
+  @apply text-gray-300 text-sm mb-4;
 }
 
 .rule {

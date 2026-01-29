@@ -1,10 +1,18 @@
-import Head from 'next/head';
 import React from 'react';
 import styles from './Home.module.css';
 import Footer from './Footer';
 import PerformanceReport from './PerformanceReport';
 import FieldDataReport from './FieldDataReport';
 import SitesList from './SitesList';
+import { Topic, CruxRecords, FieldDataScore } from '../app/typings';
+
+type HomeProps = {
+  topic: Topic;
+  resultByOrigin: CruxRecords;
+  resultByUrl: CruxRecords;
+  scoresByUrl: FieldDataScore[];
+  scoresByOrigin: FieldDataScore[];
+};
 
 const Home = ({
   topic,
@@ -12,25 +20,16 @@ const Home = ({
   resultByUrl,
   scoresByUrl,
   scoresByOrigin
-}) => {
+}: HomeProps) => {
   return (
     <div className={styles.root}>
-      <Head>
-        <title>{topic.title}</title>
-        <link rel="icon" href={topic.favicon} />
-        <meta name="description" content={topic.description} />
-        <meta property="og:title" content={topic.title} />
-        <meta property="og:description" content={topic.description} />
-        <meta property="og:url" content={topic.url} />
-        <meta property="og:site_name" content={topic.title} />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:creator" content="@PMekhaeil" />
-      </Head>
-
       <main className="container mx-auto px-4">
         <h1 className={styles.heading}>{topic.title}</h1>
         <hr className={styles.rule} />
         <h2 className={styles.headingSection}>Performance Score by Origin</h2>
+        <p className={styles.sectionDescription}>
+          Aggregated performance data across all pages on each domain.
+        </p>
         <PerformanceReport
           topic={topic}
           report={resultByOrigin}
@@ -39,6 +38,9 @@ const Home = ({
         />
         <hr className={styles.rule} />
         <h2 className={styles.headingSection}>Performance Score by URL</h2>
+        <p className={styles.sectionDescription}>
+          Performance data for specific pages tracked in this dashboard.
+        </p>
         <PerformanceReport
           topic={topic}
           report={resultByUrl}
@@ -47,6 +49,9 @@ const Home = ({
         />
         <hr className={styles.rule} />
         <h2 className={styles.headingSection}>Field Data Scores</h2>
+        <p className={styles.sectionDescription}>
+          Core Web Vitals metrics collected from real users over the last 28 days.
+        </p>
         <FieldDataReport
           topic={topic}
           report={resultByOrigin}
@@ -55,6 +60,9 @@ const Home = ({
         />
         <hr className={styles.rule} />
         <h2 className={styles.headingSection}>{topic.siteNames}</h2>
+        <p className={styles.sectionDescription}>
+          Detailed breakdown of each site with histograms showing user experience distribution.
+        </p>
         <SitesList
           topic={topic}
           report={resultByOrigin}

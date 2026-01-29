@@ -1,5 +1,3 @@
-import { apiCruxByUrl } from '../api/getCruxReports';
-
 export type Histogram = {
   start: string | number;
   end: string | number;
@@ -20,7 +18,7 @@ export type FCP = {
   histogram: Histogram[];
 };
 
-export type FID = {
+export type INP = {
   percentiles: Percentiles;
   histogram: Histogram[];
 };
@@ -44,7 +42,7 @@ export type Sites = {
 export type ApiCruxReportMetrics = {
   cumulative_layout_shift?: CLS;
   first_contentful_paint?: FCP;
-  first_input_delay?: FID;
+  interaction_to_next_paint?: INP;
   largest_contentful_paint?: LCP;
 };
 
@@ -61,22 +59,25 @@ export type Topics = {
   [key: string]: Topic;
 };
 
-export type MetricType = 'fcp' | 'lcp' | 'fid' | 'cls';
+export type MetricType = 'fcp' | 'lcp' | 'inp' | 'cls';
 
 export type FieldDataScore = {
   id: string;
   score: number;
-  scores: any;
-  metrics: any;
+  scores: { lcp: number; inp: number; cls: number };
+  metrics: ApiCruxReportMetrics | null;
 };
 
-export type Unwrap<T> = T extends (...args: any) => Promise<infer U> ? U : T;
-
-export type CruxRecords = Unwrap<typeof apiCruxByUrl>;
+export type CruxRecord = {
+  record: {
+    key: { url?: string; origin?: string };
+    metrics: ApiCruxReportMetrics | null;
+  };
+};
 
 export type Reports = {
-  resultByUrl: CruxRecords;
-  resultByOrigin: CruxRecords;
+  resultByUrl: CruxRecord[];
+  resultByOrigin: CruxRecord[];
   scoresByUrl: FieldDataScore[];
   scoresByOrigin: FieldDataScore[];
 };

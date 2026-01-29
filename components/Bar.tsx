@@ -1,7 +1,14 @@
 import { roundDown } from '../app/helpers';
 import { Histogram } from '../app/typings';
 
-const Bar = ({ histogram }: { histogram: Histogram[] }) => {
+const Bar = ({ histogram }: { histogram: Histogram[] | undefined }) => {
+  // Handle missing histogram data
+  if (!histogram || histogram.length < 3) {
+    return (
+      <div className="text-gray-400 text-sm">No data available</div>
+    );
+  }
+
   const val1 = roundDown(histogram[0].density);
   const val2 = roundDown(histogram[1].density);
   const val3 = roundDown(histogram[2].density);

@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { FieldDataScore, Topic } from '../app/typings';
+import { ApiCruxReportMetrics, FieldDataScore, Topic } from '../app/typings';
 import {
   getColourForType,
   getRecordUrl,
@@ -15,7 +17,7 @@ type Props = {
   report: CruxRecords;
   topic: Topic;
   scores: FieldDataScore[];
-  type: string;
+  type: 'url' | 'origin';
 };
 
 export default function FieldDataReport({
@@ -43,8 +45,8 @@ export default function FieldDataReport({
           <span className="hidden lg:block">First Contentful Paint (FCP)</span>
         </div>
         <div className="col-span-2 text-center">
-          <span className="lg:hidden">FID</span>
-          <span className="hidden lg:block">First Input Delay (FID)</span>
+          <span className="lg:hidden">INP</span>
+          <span className="hidden lg:block">Interaction to Next Paint (INP)</span>
         </div>
         <div className="col-span-2 text-center">
           <span className="lg:hidden">LCP</span>
@@ -55,7 +57,7 @@ export default function FieldDataReport({
       </div>
 
       {report
-        .filter((result) => result)
+        .filter((result) => result && result.record.metrics)
         .map((result) => {
           const url = getRecordUrl(result.record, type);
           return {
@@ -72,10 +74,12 @@ export default function FieldDataReport({
             url
           } = result;
 
-          const cls = metrics.cumulative_layout_shift?.percentiles.p75 || 0;
-          const fcp = metrics.first_contentful_paint?.percentiles.p75 || 0;
-          const fid = metrics.first_input_delay?.percentiles.p75 || 0;
-          const lcp = metrics.largest_contentful_paint?.percentiles.p75 || 0;
+          // Cast metrics to include INP (interaction_to_next_paint)
+          const typedMetrics = metrics as ApiCruxReportMetrics | null;
+          const cls = typedMetrics?.cumulative_layout_shift?.percentiles.p75 || 0;
+          const fcp = typedMetrics?.first_contentful_paint?.percentiles.p75 || 0;
+          const inp = typedMetrics?.interaction_to_next_paint?.percentiles.p75 || 0;
+          const lcp = typedMetrics?.largest_contentful_paint?.percentiles.p75 || 0;
           const label = site.name;
           const badge = site.colour;
 
@@ -109,9 +113,9 @@ export default function FieldDataReport({
               </div>
               <div
                 className={styles.value}
-                style={{ color: getColourForType('FID', fid as number) }}
+                style={{ color: getColourForType('INP', inp as number) }}
               >
-                {toSeconds(fid as number)}
+                {toSeconds(inp as number)}
               </div>
               <div
                 className={styles.value}

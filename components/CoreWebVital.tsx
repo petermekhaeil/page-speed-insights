@@ -1,11 +1,13 @@
 type Props = {
   cls: string | number;
-  fid: string | number;
+  inp: string | number;
   lcp: string | number;
 };
 
-const CoreWebVital = ({ cls, fid, lcp }: Props) => {
-  const isPass = cls <= 0.1 && fid <= 100 && lcp <= 2500;
+const CoreWebVital = ({ cls, inp, lcp }: Props) => {
+  // INP threshold: Good <= 200ms (vs FID's 100ms)
+  const isPass =
+    Number(cls) <= 0.1 && Number(inp) <= 200 && Number(lcp) <= 2500;
 
   return (
     <div className="mt-8">

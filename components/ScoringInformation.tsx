@@ -17,12 +17,12 @@ const ScoringInformation = () => {
       <p>
         It is a score based on the weighting of the{' '}
         <a
-          href="https://web.dev/fid"
+          href="https://web.dev/inp/"
           className="underline"
-          title="First Input Delay (FID)"
+          title="Interaction to Next Paint (INP)"
           rel="noopener"
         >
-          First Input Delay (FID)
+          Interaction to Next Paint (INP)
         </a>
         ,{' '}
         <a

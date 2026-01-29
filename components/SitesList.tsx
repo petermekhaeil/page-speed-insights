@@ -12,13 +12,14 @@ type Props = {
   report: CruxRecords;
   topic: Topic;
   scores: FieldDataScore[];
-  type: string;
+  type: 'url' | 'origin';
 };
 
 const SitesList = ({ report, topic, scores, type }: Props) => {
   return (
     <>
       {report
+        .filter((result) => result && result.record.metrics)
         .map((result) => {
           const url = getRecordUrl(result.record, type);
           return {
@@ -67,12 +68,12 @@ const SitesList = ({ report, topic, scores, type }: Props) => {
             are a common set of signals critical to all web experiences. The
             Core Web Vitals metrics are{' '}
             <a
-              href="https://web.dev/fid"
+              href="https://web.dev/inp"
               className="underline"
-              title="First Input Delay (FID)"
+              title="Interaction to Next Paint (INP)"
               rel="noopener"
             >
-              First Input Delay (FID)
+              Interaction to Next Paint (INP)
             </a>
             ,{' '}
             <a
@@ -95,6 +96,19 @@ const SitesList = ({ report, topic, scores, type }: Props) => {
             , with their respective thresholds. A page passes the Core Web
             Vitals assessment if the 75th percentiles of all three metrics are
             Good. Otherwise, the page does not pass the assessment.
+          </p>
+          <p className="mt-4">
+            The Full Report link opens{' '}
+            <a
+              href="https://pagespeed.web.dev/"
+              className="underline"
+              title="PageSpeed Insights"
+              target="_blank"
+              rel="noopener"
+            >
+              PageSpeed Insights
+            </a>
+            , which shows Lab Data (Lighthouse) that may differ from Field Data shown above.
           </p>
         </div>
       </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import { CruxRecords, FieldDataScore, Topic } from '../app/typings';
 import useIntersectionObserver from '../hooks/use-intersection-observer';
 import React, { useRef } from 'react';
@@ -15,7 +17,7 @@ type Props = {
   report: CruxRecords;
   topic: Topic;
   scores: FieldDataScore[];
-  type: string;
+  type: 'url' | 'origin';
 };
 
 const Head = () => {

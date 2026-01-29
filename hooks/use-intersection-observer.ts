@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useState } from 'react';
 
 type Options = {
-  elementRef: RefObject<HTMLElement>;
+  elementRef: RefObject<HTMLElement | null>;
   threshold: number;
 };
 

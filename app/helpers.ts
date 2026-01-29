@@ -1,4 +1,5 @@
 import { topics } from '../config';
+import { Site, Sites, FieldDataScore } from './typings';
 
 export const toSeconds = (ms: number) => (ms / 1000).toFixed(3);
 
@@ -32,10 +33,11 @@ export const getColourForType = (
     } else if (value > 1000 && value <= 3000) {
       return NeedsImprovement;
     } else return Poor;
-  } else if (type === 'FID') {
-    if (value <= 100) {
+  } else if (type === 'INP') {
+    // INP thresholds: Good <= 200ms, Needs Improvement 200-500ms, Poor > 500ms
+    if (value <= 200) {
       return Good;
-    } else if (value > 100 && value <= 300) {
+    } else if (value > 200 && value <= 500) {
       return NeedsImprovement;
     } else return Poor;
   } else if (type === 'LCP') {
@@ -55,23 +57,30 @@ export const getColourForType = (
 
 export const getTopic = () => topics[process.env.TOPIC as keyof typeof topics];
 
-export const getSiteDetailsByKey = (key: string) => {
+export const getSiteDetailsByKey = (key: keyof Site) => {
   const topic = getTopic();
-  return Object.keys(topic.sites).map((site) => {
-    return topic.sites[site][key];
+  return Object.values(topic.sites).map((site) => {
+    return site[key];
   });
 };
 
-export const getRecordUrl = (record, type) => record.key[type];
+export const getRecordUrl = (
+  record: { key: { url?: string; origin?: string } },
+  type: 'url' | 'origin'
+): string => record.key[type] ?? '';
 
-export const getScoreByUrl = (scores, url) =>
-  scores.find((score) => score.id.startsWith(url))?.score;
+export const getScoreByUrl = (scores: FieldDataScore[], url: string): number =>
+  scores.find((score) => score.id.startsWith(url))?.score ?? 0;
 
-export const formatScore = (score) => +Number(score * 100).toFixed(0);
+export const formatScore = (score: number) => +Number(score * 100).toFixed(0);
 
-export const getSiteNameFromUrl = (sites, type, url) => {
+export const getSiteNameFromUrl = (
+  sites: Sites,
+  type: 'url' | 'origin',
+  url: string
+): Site => {
   const siteKey = Object.keys(sites).find((siteName) =>
     sites[siteName][type].startsWith(url)
   );
-  return sites[siteKey];
+  return sites[siteKey ?? ''] ?? { colour: '', name: '', url: '', origin: '' };
 };

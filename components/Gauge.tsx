@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef } from 'react';
 import { getColourFromRange } from '../app/helpers';
 import useIntersectionObserver from '../hooks/use-intersection-observer';

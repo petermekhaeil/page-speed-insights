@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 .index {
   @apply inline-block bg-white rounded-br-sm w-6 text-black text-center font-bold;
 }
