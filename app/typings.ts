@@ -47,7 +47,7 @@ export type ApiCruxReportMetrics = {
 };
 
 export type Topic = {
-  url: string;
+  slug: string;
   favicon: string;
   title: string;
   description: string;
@@ -74,6 +74,8 @@ export type CruxRecord = {
     metrics: ApiCruxReportMetrics | null;
   };
 };
+
+export type CruxRecords = CruxRecord[];
 
 export type Reports = {
   resultByUrl: CruxRecord[];

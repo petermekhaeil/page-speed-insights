@@ -1,8 +1,7 @@
 @reference "tailwindcss";
 
 .root {
-  @apply bg-gray-500 min-h-screen text-white;
-  background-color: #15151d;
+  @apply min-h-screen text-white bg-[#15151d];
 }
 
 .heading {

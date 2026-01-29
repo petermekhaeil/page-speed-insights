@@ -1,5 +1,5 @@
 import { getSiteDetailsByKey } from '../app/helpers';
-import { Reports, FieldDataScore, MetricType } from '../app/typings';
+import { Reports, FieldDataScore, MetricType, Topic } from '../app/typings';
 import { apiKey } from '../config';
 
 const CRUX_API_URL = 'https://chromeuxreport.googleapis.com/v1/records:queryRecord';
@@ -227,9 +227,9 @@ export const apiCruxByOrigin = async (origins: string[]) => {
   return results.map(({ crux, origin }) => createRecord(crux, { origin }));
 };
 
-const getCruxReports = async (): Promise<Reports> => {
-  const urls = getSiteDetailsByKey('url');
-  const origins = getSiteDetailsByKey('origin');
+const getCruxReports = async (topic: Topic): Promise<Reports> => {
+  const urls = getSiteDetailsByKey(topic, 'url');
+  const origins = getSiteDetailsByKey(topic, 'origin');
 
   if (!apiKey) {
     console.warn('GOOGLE_API_KEY is not set. Returning empty data.');

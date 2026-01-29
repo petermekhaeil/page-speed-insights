@@ -1,20 +1,13 @@
 import type { Metadata } from 'next';
-import { getTopic } from './helpers';
 import './globals.css';
 
-const topic = getTopic();
-
 export const metadata: Metadata = {
-  title: topic.title,
-  description: topic.description,
-  icons: {
-    icon: topic.favicon,
-  },
+  title: 'Page Speed Insights',
+  description: 'Compare website performance using real user data from the Chrome User Experience Report (CrUX).',
   openGraph: {
-    title: topic.title,
-    description: topic.description,
-    url: topic.url,
-    siteName: topic.title,
+    title: 'Page Speed Insights',
+    description: 'Compare website performance using real user data from the Chrome User Experience Report (CrUX).',
+    siteName: 'Page Speed Insights',
   },
   twitter: {
     card: 'summary',

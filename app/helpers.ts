@@ -1,5 +1,4 @@
-import { topics } from '../config';
-import { Site, Sites, FieldDataScore } from './typings';
+import { Site, Sites, FieldDataScore, Topic } from './typings';
 
 export const toSeconds = (ms: number) => (ms / 1000).toFixed(3);
 
@@ -55,10 +54,7 @@ export const getColourForType = (
   }
 };
 
-export const getTopic = () => topics[process.env.TOPIC as keyof typeof topics];
-
-export const getSiteDetailsByKey = (key: keyof Site) => {
-  const topic = getTopic();
+export const getSiteDetailsByKey = (topic: Topic, key: keyof Site) => {
   return Object.values(topic.sites).map((site) => {
     return site[key];
   });
